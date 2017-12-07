@@ -82,7 +82,8 @@ def queue3(n, m):
         s = (s + m) % i
         loopCount_1 += 1
     print("总循环次数:", loopCount_1)
-    return s+1
+    return s + 1
+
 
 # outList = []
 # rstNum = queue(100000, 3, outList)
@@ -93,5 +94,5 @@ def queue3(n, m):
 # print("[2]最后的胜利者编号是：", rstNum)
 # # print("[2]淘汰顺序：",outList)
 
-rstNum = queue3(100000,3)
+rstNum = queue3(10, 3)
 print("[3]最后的胜利者编号是：", rstNum)
