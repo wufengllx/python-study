@@ -1,7 +1,8 @@
 # 约瑟夫问题
 
+
 # 优化算法后的想法
-def queue(count, num, outList):
+def queue(count, num, out_list):
     # 循环次数
     loopCount_1, loopCount_2, loopCount_3 = 0, 0, 0
 
@@ -19,7 +20,7 @@ def queue(count, num, outList):
         for i in range(zcNum):
             loopCount_2 += 1
             delIndex = ((i + 1) * num - delCount - 1)
-            outList.append(numList[delIndex])
+            out_list.append(numList[delIndex])
             del numList[delIndex]
             delCount += 1
             if i == zcNum - 1:
@@ -31,11 +32,11 @@ def queue(count, num, outList):
         ysNum = num % numLen
         # 如果余数为0 则移除数组最后一个对象
         if ysNum == 0:
-            outList.append(numList[numLen - 1])
+            out_list.append(numList[numLen - 1])
             del numList[numLen - 1]
         else:
             # ysNum-1 是要移除对象 index
-            outList.append(numList[ysNum - 1])
+            out_list.append(numList[ysNum - 1])
             # 将 ysNum-1 前的数组移至数组后面 此时得到的数组第一个则是需要移除的对象
             numList = listRecombination(numList, ysNum - 1)
             # 移除第一个对象
@@ -46,14 +47,14 @@ def queue(count, num, outList):
 
 # 数组重组
 # 按照数据中具体的节点（index） 将列表中index的数组（不包括index对象）追加到列表末端。
-def listRecombination(list, index):
-    list += list[0:index]
-    del list[0:index]
-    return list
+def listRecombination(arr, index):
+    arr += arr[0:index]
+    del arr[0:index]
+    return arr
 
 
 # 原始想法
-def queue2(count, num, outList):
+def queue2(count, num, out_list):
     # 循环次数
     loopCount_1, loopCount_2 = 0, 0
 
@@ -67,7 +68,7 @@ def queue2(count, num, outList):
             n = numList[0]
             del numList[0]
             if i == num - 1:
-                outList.append(n)
+                out_list.append(n)
             else:
                 numList.append(n)
     print("总循环次数:", loopCount_1 + loopCount_2)
@@ -77,8 +78,10 @@ def queue2(count, num, outList):
 # 数学公式解
 def queue3(n, m):
     loopCount_1 = 0
+    # 初始 f(1) = 0
     s = 0
     for i in range(2, n + 1):
+        # f(i) = ( f(i-1) + m ) % i
         s = (s + m) % i
         loopCount_1 += 1
     print("总循环次数:", loopCount_1)
