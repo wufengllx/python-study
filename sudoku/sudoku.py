@@ -31,6 +31,28 @@ def init(begin_arr, hp_arr, sp_arr, gg_arr):
         sp_arr.append(arr_sp)
 
 
+# 根据数组中某个位置ID返回和这个位置组成的横排的9个数
+def getHP(idx, all_arr):
+    for i in range(9):
+        n = (idx // 9) * 9 + i
+        hp_arr.append(all_arr[n])
+    print(hp_arr)
+
+
+# 根据数组中某个位置ID返回和这个位置组成的竖排的9个数
+def getSP(idx, all_arr):
+    for i in range(9):
+        n = i * 9 + idx % 9
+        sp_arr.append(all_arr[n])
+    print(sp_arr)
+
+
+# 根据数组中某个位置ID返回和这个位置组成的九宫格的9个数
+def getGG(idx, all_arr):
+    n = ((idx//9)%3)*3+idx%3
+    return n
+
+
 arr = [1, 0, 0, 0, 0, 0, 0, 0, 0,
        3, 2, 0, 0, 0, 0, 0, 0, 0,
        0, 0, 3, 0, 0, 0, 0, 0, 0,
@@ -44,5 +66,7 @@ arr = [1, 0, 0, 0, 0, 0, 0, 0, 0,
 hp_arr = []
 sp_arr = []
 gg_arr = []
-init(arr, hp_arr, sp_arr)
-print(hp_arr)
+# init(arr, hp_arr, sp_arr, gg_arr)
+getHP(9, arr)
+getSP(17, arr)
+# print(hp_arr)
