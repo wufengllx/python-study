@@ -4,21 +4,6 @@
 # 九个小九宫格 1-9
 
 
-# 横排检查
-def hpCheck():
-    return True
-
-
-# 竖排检查
-def spCheck():
-    return True
-
-
-# 小九宫格检查
-def jggCheck():
-    return True
-
-
 def init(begin_arr, hp_arr, sp_arr, gg_arr):
     for y in range(9):
         arr_hp = []
@@ -67,6 +52,6 @@ hp_arr = []
 sp_arr = []
 gg_arr = []
 # init(arr, hp_arr, sp_arr, gg_arr)
-getHP(9, arr)
+getHP(19, arr)
 getSP(17, arr)
 # print(hp_arr)
