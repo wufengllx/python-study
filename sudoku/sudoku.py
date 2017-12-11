@@ -5,7 +5,7 @@
 import sys
 import time
 
-sys.setrecursionlimit(1000000)  # 递归深度值：这里设置为一百万
+sys.setrecursionlimit(10000)  # 递归深度值：这里设置为一百万
 action_count = 0  # 递归次数
 
 
@@ -45,7 +45,7 @@ def find_optimal(all_arr):
     optimal_idx = 0
     num_arr_nine = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     optimal_diff_arr = []  # 最优解数组
-    union_arr = []
+    # union_arr = []
     null_flag = False  # 是否存在未填空白
     for i in range(len(all_arr)):
         if all_arr[i] == 0:
@@ -76,8 +76,7 @@ def find_optimal(all_arr):
                     return {"optimal_idx": optimal_idx, "min_null_num": min_null_num,
                             "union_arr": union_arr, "optimal_diff_arr": optimal_diff_arr, "null_flag": null_flag}
 
-    return {"optimal_idx": optimal_idx, "min_null_num": min_null_num,
-            "union_arr": union_arr, "optimal_diff_arr": optimal_diff_arr, "null_flag": null_flag}
+    return {"optimal_idx": optimal_idx, "min_null_num": min_null_num, "optimal_diff_arr": optimal_diff_arr, "null_flag": null_flag}
 
 
 # 执行最优解
