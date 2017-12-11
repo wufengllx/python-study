@@ -2,49 +2,39 @@
 # 横排 1-9
 # 竖排 1-9
 # 九个小九宫格 1-9
-# hp_arr = []  # 横排数组
-# sp_arr = []  # 竖排数组
-# gg_arr = []  # 九宫格数组
 
 import sys
+import time
+
 sys.setrecursionlimit(1000000)  # 递归深度值：这里设置为一百万
 
 
 # 根据数组中某个位置ID返回和这个位置组成的横排的9个数
 def get_hp_arr(idx, all_arr):
     num_arr = []
-    null_num = 0
     for i in range(9):
         n = (idx // 9) * 9 + i
         num_arr.append(all_arr[n])
-        if all_arr[n] == 0:
-            null_num += 1
-    return {"num_arr": num_arr, "null_num": null_num}
+    return num_arr
 
 
 # 根据数组中某个位置ID返回和这个位置组成的竖排的9个数
 def get_sp_arr(idx, all_arr):
     num_arr = []
-    null_num = 0
     for i in range(9):
         n = i * 9 + idx % 9
         num_arr.append(all_arr[n])
-        if all_arr[n] == 0:
-            null_num += 1
-    return {"num_arr": num_arr, "null_num": null_num}
+    return num_arr
 
 
 # 根据数组中某个位置ID返回和这个位置组成的九宫格的9个数
 def get_gg_arr(idx, all_arr):
     num_arr = []
-    null_num = 0
     m = ((idx // 9) % 3) * 3 + idx % 3
     for i in range(9):
         n = idx + (i // 3) * 9 - (m // 3) * 9 + i % 3 - m % 3
         num_arr.append(all_arr[n])
-        if all_arr[n] == 0:
-            null_num += 1
-    return {"num_arr": num_arr, "null_num": null_num}
+    return num_arr
 
 
 # 寻找最优方案
@@ -54,23 +44,20 @@ def find_optimal(all_arr):
     min_null_num = 999
     optimal_idx = 0
     num_arr_nine = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    optimal_diff_arr = []
+    optimal_diff_arr = []   # 最优解数组
     union_arr = []
-    null_flag = False
+    null_flag = False  # 是否存在未填空白
     for i in range(len(all_arr)):
         if all_arr[i] == 0:
             null_flag = True
             # 横排
-            rtn_map_hp = get_hp_arr(i, all_arr)
-            hp_arr = rtn_map_hp["num_arr"]
+            hp_arr = get_hp_arr(i, all_arr)
 
             # 竖排
-            rtn_map_sp = get_sp_arr(i, all_arr)
-            sp_arr = rtn_map_sp["num_arr"]
+            sp_arr = get_sp_arr(i, all_arr)
 
             # 九宫格
-            rtn_map_gg = get_gg_arr(i, all_arr)
-            gg_arr = rtn_map_gg["num_arr"]
+            gg_arr = get_gg_arr(i, all_arr)
 
             # 并集
             union_arr = set(hp_arr).union(sp_arr).union(gg_arr)
@@ -101,7 +88,7 @@ def action_optimal(optimal_map):
     all_arr = optimal_map["all_arr"]
     # 无空白就结束了
     if not null_flag:
-        print("=== ", optimal_map)
+        # print("=== ", optimal_map)
         view_arr(all_arr)
         return False
     elif 9 > optimal_map["min_null_num"] > 0 and len(optimal_diff_arr) > 0:
@@ -128,14 +115,16 @@ def view_arr(all_arr):
 
 
 def games(all_arr):
+    start = time.clock()
     flag = True
     while flag:
         optimal_map = find_optimal(all_arr)
         optimal_map["all_arr"] = all_arr
         optimal_map["up_optimal_map"] = optimal_map
-        print(optimal_map)
+        # print(optimal_map)
         flag = action_optimal(optimal_map)
-    # view_arr(all_arr)
+    end = time.clock()
+    print("用时：", end - start)
 
 
 # 简单
