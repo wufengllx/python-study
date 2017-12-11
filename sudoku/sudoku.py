@@ -2,11 +2,11 @@
 # 横排 1-9
 # 竖排 1-9
 # 九个小九宫格 1-9
-
 import sys
 import time
 
 sys.setrecursionlimit(1000000)  # 递归深度值：这里设置为一百万
+action_count = 0  # 递归次数
 
 
 # 根据数组中某个位置ID返回和这个位置组成的横排的9个数
@@ -44,7 +44,7 @@ def find_optimal(all_arr):
     min_null_num = 999
     optimal_idx = 0
     num_arr_nine = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    optimal_diff_arr = []   # 最优解数组
+    optimal_diff_arr = []  # 最优解数组
     union_arr = []
     null_flag = False  # 是否存在未填空白
     for i in range(len(all_arr)):
@@ -82,16 +82,20 @@ def find_optimal(all_arr):
 
 # 执行最优解
 def action_optimal(optimal_map):
+    global action_count
+    action_count += 1
     optimal_diff_arr = optimal_map["optimal_diff_arr"]
     optimal_idx = optimal_map["optimal_idx"]
     null_flag = optimal_map["null_flag"]
     all_arr = optimal_map["all_arr"]
+    min_null_num = optimal_map["min_null_num"]
+    up_optimal_map = optimal_map["up_optimal_map"]
     # 无空白就结束了
     if not null_flag:
         # print("=== ", optimal_map)
         view_arr(all_arr)
-        return False
-    elif 9 > optimal_map["min_null_num"] > 0 and len(optimal_diff_arr) > 0:
+        return True
+    elif 9 > min_null_num > 0 and len(optimal_diff_arr) > 0:
         copy_arr = all_arr.copy()
         copy_arr[optimal_idx] = optimal_diff_arr[0]
         optimal_diff_arr.remove(optimal_diff_arr[0])
@@ -100,9 +104,11 @@ def action_optimal(optimal_map):
         next_map["up_optimal_map"] = optimal_map
         next_map["all_arr"] = copy_arr
         return action_optimal(next_map)
-    else:
-        up_optimal_map = optimal_map["up_optimal_map"]
+    elif len(optimal_diff_arr) == 0 and len(up_optimal_map) > 0:
         return action_optimal(up_optimal_map)
+    # elif len(up_optimal_map) == 0:
+    else:
+        return False
 
 
 def view_arr(all_arr):
@@ -116,15 +122,15 @@ def view_arr(all_arr):
 
 def games(all_arr):
     start = time.clock()
-    flag = True
-    while flag:
-        optimal_map = find_optimal(all_arr)
-        optimal_map["all_arr"] = all_arr
-        optimal_map["up_optimal_map"] = optimal_map
-        # print(optimal_map)
-        flag = action_optimal(optimal_map)
+    # flag = True
+    # while flag:
+    optimal_map = find_optimal(all_arr)
+    optimal_map["all_arr"] = all_arr
+    optimal_map["up_optimal_map"] = {}
+    flag = action_optimal(optimal_map)
+
     end = time.clock()
-    print("用时：", end - start)
+    print("是否成功获得解：", flag and "成功" or "失败", ", 用时：%f s" % (end - start), ", 递归次数:", action_count)
 
 
 # 简单
